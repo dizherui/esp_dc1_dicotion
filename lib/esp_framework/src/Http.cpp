@@ -169,6 +169,10 @@ void Http::handleRoot()
     }
 
     server->sendContent_P(
+<tr><td>按钮1名称</td><td><input type='text' name='button1Name' value=''></td></tr>
+<tr><td>按钮2名称</td><td><input type='text' name='button2Name' value=''></td></tr>
+<tr><td>按钮3名称</td><td><input type='text' name='button3Name' value=''></td></tr>
+<tr><td>按钮4名称</td><td><input type='text' name='button4Name' value=''></td></tr>
         PSTR("<form method='post' action='/module_setting' onsubmit='postform(this);return false'>"
              "<table class='gridtable'><thead><tr><th colspan='2'>模块设置</th></tr></thead><tbody>"));
 
