@@ -169,8 +169,44 @@ void Http::handleRoot()
     }
 
     server->sendContent_P(
-<tr><td>按钮1名称</td><td><input type='text' name='button1Name' value=''></td></tr>
-<tr><td>按钮2名称</td><td><input type='text' name='button2Name' value=''></td></tr>
+void DC1::httpHtml(ESP8266WebServer *server) {
+    server->sendContent_P(
+        PSTR("<!DOCTYPE html><html lang='zh-cn'><head><meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'/><title>DC1插线板</title></head><body>"));
+    server->sendContent_P(
+        PSTR("<h1>控制界面</h1><form method='post' action='/save_button_names'>"
+             "开关状态<br>"
+             "<label>按钮1: <input type='text' name='button1' value='"));
+    server->sendContent(button1Name);
+    server->sendContent_P(PSTR("'></label><br>"
+             "<label>按钮2: <input type='text' name='button2' value='"));
+    server->sendContent(button2Name);
+    server->sendContent_P(PSTR("'></label><br>"
+             "<label>按钮3: <input type='text' name='button3' value='"));
+    server->sendContent(button3Name);
+    server->sendContent_P(PSTR("'></label><br>"
+             "<label>按钮4: <input type='text' name='button4' value='"));
+    server->sendContent(button4Name);
+    server->sendContent_P(PSTR("'></label><br>"
+             "<input type='submit' value='保存'>"
+             "</form>"));
+    server->sendContent_P(PSTR("</body></html>"));
+}
+
+void DC1::handleSaveButtonNames() {
+    if (!checkAuth()) {
+        return;
+    }
+
+    // 读取输入的数据
+    strncpy(button1Name, server->arg("button1").c_str(), sizeof(button1Name));
+    strncpy(button2Name, server->arg("button2").c_str(), sizeof(button2Name));
+    strncpy(button3Name, server->arg("button3").c_str(), sizeof(button3Name));
+    strncpy(button4Name, server->arg("button4").c_str(), sizeof(button4Name));
+
+    saveConfig();  // 保存配置
+
+    server->send(200, "text/html", "保存成功!<br><a href='/control'>返回控制界面</a>");
+}
 <tr><td>按钮3名称</td><td><input type='text' name='button3Name' value=''></td></tr>
 <tr><td>按钮4名称</td><td><input type='text' name='button4Name' value=''></td></tr>
         PSTR("<form method='post' action='/module_setting' onsubmit='postform(this);return false'>"
