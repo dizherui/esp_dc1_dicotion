@@ -73,6 +73,12 @@ public:
     DC1ConfigMessage config;
     uint8_t lastState = 0;
     uint8_t lastState2 = 0;
+
+    char button1Name[32] = "开";
+    char button2Name[32] = "关";
+    char button3Name[32] = "关";
+    char button4Name[32] = "开";
+
     uint8_t channels = 0;
 
     void init();
