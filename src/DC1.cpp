@@ -19,11 +19,29 @@ void DC1::init()
 
     // 按键
     pinMode(KEY_0_PIN, INPUT_PULLDOWN_16);
-    cat9554->pinMode(KEY_1_PIN, INPUT);
-    cat9554->pinMode(KEY_2_PIN, INPUT);
-    cat9554->pinMode(KEY_3_PIN, INPUT);
+void DC1::readConfig() {
+    EEPROM.begin(512);
+    EEPROM.get(0, config);
+    EEPROM.get(128, button1Name);
+    EEPROM.get(160, button2Name);
+    EEPROM.get(192, button3Name);
+    EEPROM.get(224, button4Name);
+    EEPROM.end();
+}
 
-    // 继电器
+void DC1::saveConfig(bool isEverySecond) {
+    if (isEverySecond && (operationFlag == 0)) {
+        return;
+    }
+    EEPROM.begin(512);
+    EEPROM.put(0, config);
+    EEPROM.put(128, button1Name);
+    EEPROM.put(160, button2Name);
+    EEPROM.put(192, button3Name);
+    EEPROM.put(224, button4Name);
+    EEPROM.commit();
+    EEPROM.end();
+}
     cat9554->pinMode(REL_0_PIN, OUTPUT);
     cat9554->pinMode(REL_1_PIN, OUTPUT);
     cat9554->pinMode(REL_2_PIN, OUTPUT);
